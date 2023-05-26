@@ -15,6 +15,13 @@ app.use(express.json())
 
 const port = process.env.PORT || 5000
 
+app.get("/hello", (req, res) => {
+    res.json({
+        "name": "prajwal"
+    })
+    return
+})
+
 app.get("/:year/:id", async (req, res) => {
     const dataz = await pool.query(`select exists (SELECT FROM information_schema.tables WHERE table_name = 'studentdetails_${req.params.year}series');`)
     if(dataz.rows[0].exists === false){
