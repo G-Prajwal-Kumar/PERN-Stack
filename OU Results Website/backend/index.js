@@ -1,14 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const Pool = require("pg").Pool
-const pool = new Pool({
-    user: "postgres",
-    password: "123857496",
-    host: "2401:4900:1cb4:3601:a90b:1bfb:d362:630a",
-    port: 5432,
-    database: "NGIT"
-})
+const pool = require('./db')
+
 // const pool = require("./postgreSQL");
 app.use(cors())
 app.use(express.json())
