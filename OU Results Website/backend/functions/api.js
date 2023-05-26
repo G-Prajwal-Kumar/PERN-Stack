@@ -1,14 +1,24 @@
 const express = require("express");
-const cors = require("cors");
+// const cors = require("cors");
 const app = express();
-const pool = require("./postgreSQL");
+const Pool = require("pg").Pool
+const pool = new Pool({
+    user: "postgres",
+    password: "123857496",
+    host: "2401:4900:1c26:493e:c4a0:c086:d2f4:9359",
+    port: 5432,
+    database: "NGIT"
+})
+// const pool = require("./postgreSQL");
+const serverless = require("serverless-http");
+const router = express.Router();
 
-app.use(cors())
-app.use(express.json())
+// app.use(cors())
+// app.use(express.json())
 
-const port = process.env.PORT || 5000
+// const port = process.env.PORT || 5000
 
-app.get("/:year/:id", async (req, res) => {
+router.get("/:year/:id", async (req, res) => {
     const dataz = await pool.query(`select exists (SELECT FROM information_schema.tables WHERE table_name = 'studentdetails_${req.params.year}series');`)
     if(dataz.rows[0].exists === false){
         res.json([]);
@@ -37,7 +47,7 @@ app.get("/:year/:id", async (req, res) => {
     res.json([data1.rows, result, data10.rows]); 
 })
 
-app.get("/history/:year/:id", async (req, res) => {
+router.get("/history/:year/:id", async (req, res) => {
     const data = await pool.query(`select a.subjectcode, b.subjectname, credits, gradepoints, gradesecured, timestamp from regularresults_${req.params.year}series a inner join subjects b on a.subjectcode = b.subjectcode where rollnumber = '${req.params.id}' order by timestamp desc, subjectcode`)
     const info = await pool.query(`select timestamp, semester, result, date, attempt from results where rollnumber = '${req.params.id}' order by timestamp desc;`)
     var a = 0
@@ -70,6 +80,5 @@ app.get("/history/:year/:id", async (req, res) => {
     res.json([result, result1]);
 })
 
-app.listen(port, () => {
-    console.log("Server Started")
-})
+app.use("/.netlify/functions/api", router);
+module.exports.handler = serverless(app);
