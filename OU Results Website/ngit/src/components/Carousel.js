@@ -1,42 +1,49 @@
 import {Fragment, useState, useEffect, useRef} from "react";
 import '../App.css';
 
-const Carousel = () => {
+const Carousel = (props) => {
 
-    const [update, setUpdate] = useState(false);
+    const [update, setUpdate] = useState(0);
 
     var mainInfo = useRef({});
     var mainInfo1 = useRef({});
-
+    var roll = useRef("");
+    
     const data = async () => {
-        if(update) return;
+        // if(update !== 0) return;
         try {
-            var info = await fetch("http://localhost:5000/20/245320748305");
+            var info = await fetch(`http://localhost:5000/${props.year}/${props.roll}`);
             mainInfo.current = await info.json();
-            var info1 = await fetch("http://localhost:5000/history/20/245320748305");
+            var info1 = await fetch(`http://localhost:5000/history/${props.year}/${props.roll}`);
             mainInfo1.current = await info1.json();
-            if(!update) setUpdate(true);
+            // if(update === 0) setUpdate(1);
+            // else if(update !== 0) setUpdate(update+1)
+            setUpdate(update+1)
+            
+            console.log(mainInfo)
         } catch (err) {
             console.log(err);            
         }
     }
-    
-    useEffect(() => {
+
+    if(roll.current != props.roll){
+        roll.current = props.roll;
         data();
-    }, []);
+    }
+    
     console.log("Info Outside")
     const mainBar = {
         fontSize: "17px",
-        
-        marginBottom: "-50px",
+        marginBottom: "0px",
         zIndex: "1",
         position: "relative",
         minHeigt: "100px"
     }
+    var count = 0;
 
-    if(update){
+    if(update !== 0){
         return (
-            <Fragment>
+            <Fragment key={props.roll}>
                     <table className="table table-info table-striped table-sm" style={mainBar}>
                         <thead className="text-center">
                             <tr>
@@ -79,7 +86,7 @@ const Carousel = () => {
                                 mainInfo.current[1].map((SEM, i) => {
                                         return (
                                             <div className={"carousel-item "+ (i === 0 ? 'active': '')} data-bs-interval="0">
-                                                <div style={{maxHeight: "450px", overflow: "auto", maxWidth: "77%", margin: "0 auto", marginTop: "7%"}}>
+                                                <div style={{maxHeight: "450px", overflow: "auto", maxWidth: "77%", margin: "20px auto"}}>
                                                 <table className="table table-info table-striped" style={{marginBottom: '0px'}}>
                                                     <thead className="text-center">
                                                         <tr>
@@ -107,9 +114,9 @@ const Carousel = () => {
                                                     </tbody>
                                                 </table>
                                                 </div>
-                                                <div className="carousel-caption d-none d-md-block" style={{paddingTop: "0px"}}>
-                                                    <h5>Semester - {SEM[0].subjectcode[0]} ({mainInfo.current[mainInfo.current.length-1][SEM[0].subjectcode[0]-1].date})</h5>
-                                                    <p style={{marginBottom: '0'}}><b>Result : {mainInfo.current[mainInfo.current.length-1][SEM[0].subjectcode[0]-1].result}</b></p>
+                                                <div className="carousel-caption d-md-block" style={{paddingTop: "0px", paddingBottom:"20px", bottom: "1em"}}>
+                                                    <h5>Semester - {SEM[0].subjectcode[0]} ({mainInfo.current[mainInfo.current.length-1][count].date})</h5>
+                                                    <p style={{marginBottom: '0'}}><b>Result : {mainInfo.current[mainInfo.current.length-1][count++].result}</b></p>
                                                 </div>
                                             </div>
                                             
@@ -140,7 +147,7 @@ const Carousel = () => {
                                 mainInfo1.current[0].map((SEM, i) => {
                                         return (
                                             <div className={"carousel-item "+ (i === 0 ? 'active': '')} data-bs-interval="0">
-                                                <div style={{maxHeight: "450px", overflow: "auto", maxWidth: "77%", margin: "0 auto", marginTop: "7%"}}>
+                                                <div style={{maxHeight: "450px", overflow: "auto", maxWidth: "77%", margin: "20px auto"}}>
                                                 <table className="table table-info table-striped" style={{marginBottom: "0px"}}>
                                                     <thead className="text-center">
                                                         <tr>
@@ -168,7 +175,7 @@ const Carousel = () => {
                                                     </tbody>
                                                 </table>
                                                 </div>
-                                                <div className="carousel-caption d-none d-md-block" style={{paddingTop: "0px"}}>
+                                                <div className="carousel-caption d-md-block" style={{paddingTop: "0px", paddingBottom:"20px", bottom: "1em"}}>
                                                     <h5>{mainInfo1.current[1][i][0].attempt === 0 ? 'Re-Evaluation' : 'Regular'} ({mainInfo1.current[1][i][0].date})</h5>
                                                     <p style={{marginBottom: '0'}}><b>{mainInfo1.current[1][i].map(sem => {return '| Sem '+sem.semester+' : '+sem.result+' '})}|</b></p>
                                                 </div>
