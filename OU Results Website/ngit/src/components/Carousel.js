@@ -8,20 +8,20 @@ const Carousel = (props) => {
     var mainInfo = useRef({});
     var mainInfo1 = useRef({});
     var roll = useRef("");
+
+    const view = () => {
+        document.getElementById("load").style.display = "none"
+        document.getElementById("info").style.display = "block";
+    }
     
     const data = async () => {
-        // if(update !== 0) return;
         try {
             var info = await fetch(`https://ngit-results.onrender.com/${props.year}/${props.roll}`);
             mainInfo.current = await info.json();
-            console.log(info)
             var info1 = await fetch(`https://ngit-results.onrender.com/history/${props.year}/${props.roll}`);
             mainInfo1.current = await info1.json();
-            // if(update === 0) setUpdate(1);
-            // else if(update !== 0) setUpdate(update+1)
-            setUpdate(update+1)
-            
-            console.log(mainInfo)
+            props.render.current = 1;
+            setUpdate(update+1);
         } catch (err) {
             console.log(err);            
         }
@@ -32,7 +32,6 @@ const Carousel = (props) => {
         data();
     }
     
-    console.log("Info Outside")
     const mainBar = {
         fontSize: "17px",
         marginBottom: "0px",
@@ -42,7 +41,7 @@ const Carousel = (props) => {
     }
     var count = 0;
 
-    if(update !== 0){
+    if(update !== 0 && props.render.current === 1){
         return (
             <Fragment key={props.roll}>
                     <table className="table table-info table-striped table-sm" style={mainBar}>
@@ -196,10 +195,9 @@ const Carousel = (props) => {
                         </button>
                     </div>
                 </div>
+                {view()}
             </Fragment>
         );
-    }else{
-        return(<h2 style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>Connecting to Server ...</h2>);
     };
 }
 

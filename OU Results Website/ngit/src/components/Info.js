@@ -32,7 +32,7 @@ const Info = (props) => {
 
     return (
         <Fragment>
-            <Carousel year = {props.year} roll = {props.roll}/>
+            <Carousel render = {props.render} year = {props.year} roll = {props.roll}/>
             <div className="btn-group" role="group" aria-label="Basic radio toggle button group" style={{width: "30%", left: "50%", marginLeft: "-15%", marginTop: "-1%"}}>
                 <input type="radio" className="btn-check" name="btnradio" id="btnradio1" onClick={() => check(1)}/>
                 <label className="btn btn-outline-secondary" htmlFor="btnradio1">Semester Results</label>
