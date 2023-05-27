@@ -1,4 +1,4 @@
-import {Fragment, useState, useEffect, useRef} from "react";
+import {Fragment, useState, useRef} from "react";
 import '../App.css';
 
 const Carousel = (props) => {
@@ -27,7 +27,7 @@ const Carousel = (props) => {
         }
     }
 
-    if(roll.current != props.roll){
+    if(roll.current !== props.roll){
         roll.current = props.roll;
         data();
     }
