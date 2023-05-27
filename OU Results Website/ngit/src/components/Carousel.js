@@ -12,9 +12,10 @@ const Carousel = (props) => {
     const data = async () => {
         // if(update !== 0) return;
         try {
-            var info = await fetch(`http://localhost:5000/${props.year}/${props.roll}`);
+            var info = await fetch(`https://ngit-results.onrender.com/${props.year}/${props.roll}`);
             mainInfo.current = await info.json();
-            var info1 = await fetch(`http://localhost:5000/history/${props.year}/${props.roll}`);
+            console.log(info)
+            var info1 = await fetch(`https://ngit-results.onrender.com/history/${props.year}/${props.roll}`);
             mainInfo1.current = await info1.json();
             // if(update === 0) setUpdate(1);
             // else if(update !== 0) setUpdate(update+1)

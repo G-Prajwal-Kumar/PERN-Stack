@@ -21,7 +21,7 @@ function App() {
       alert("Invalid Roll Number");
       return;
     }
-    var valid = await fetch(`http://localhost:5000/${roll.substring(4,6)}/${roll}`)
+    var valid = await fetch(`https://ngit-results.onrender.com/${roll.substring(4,6)}/${roll}`)
     valid = await valid.json()
     if(valid.length === 0){
       setCont(0);
