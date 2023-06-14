@@ -41,6 +41,11 @@ const Carousel = (props) => {
     }
     var count = 0;
 
+    const hide = () => {
+        document.getElementsByClassName("carousel-control-next").style.display = "none"
+        document.getElementsByClassName("carousel-control-prev").style.display = "none"
+    }
+
     if(update !== 0 && props.render.current === 1){
         return (
             <Fragment key={props.roll}>
@@ -55,7 +60,7 @@ const Carousel = (props) => {
                                 <th scope="row">Hall Tickect No. :</th>
                                 <td>{mainInfo.current[0][0].rollnumber}</td>
                                 <th>Gender :</th>
-                                <td>{mainInfo.current[0][0].gender === 1 ? 'Male':'Female'}</td>
+                                <td>{mainInfo.current[0][0].gender === 0 ? 'Male':'Female'}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Name :</th>
@@ -74,6 +79,9 @@ const Carousel = (props) => {
                 <div style={{overflow: "hidden", display: "flex"}}>
                     <div id="carouselExampleDark1" className="carousel carousel-dark slide checkLeft" data-interval="false" style={{minWidth: "100%", transition: "0.75s"}}>
                         <div className="carousel-indicators">
+                            {
+                                mainInfo.current.length-1 === 0 ? hide():""
+                            }
                             {
                                 mainInfo.current[mainInfo.current.length-1].map((curr, i) => {
                                     if(i === 0) return <button type='button' data-bs-target='#carouselExampleDark1' data-bs-slide-to={i} className='active' aria-current='true' aria-label={'Slide '+(i+1)} />
