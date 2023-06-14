@@ -41,9 +41,29 @@ const Carousel = (props) => {
     }
     var count = 0;
 
-    const hide = () => {
-        document.getElementsByClassName("carousel-control-next").style.display = "none"
-        document.getElementsByClassName("carousel-control-prev").style.display = "none"
+    const hide1 = () => {            
+        return  <Fragment>
+                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark1" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
+                </button>
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark1" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
+                </button>
+            </Fragment>
+    }
+    const hide2 = () => {
+        return  <Fragment>
+            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark2" data-bs-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark2" data-bs-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+            </button>
+        </Fragment>
     }
 
     if(update !== 0 && props.render.current === 1){
@@ -79,9 +99,6 @@ const Carousel = (props) => {
                 <div style={{overflow: "hidden", display: "flex"}}>
                     <div id="carouselExampleDark1" className="carousel carousel-dark slide checkLeft" data-interval="false" style={{minWidth: "100%", transition: "0.75s"}}>
                         <div className="carousel-indicators">
-                            {
-                                mainInfo.current.length-1 === 0 ? hide():""
-                            }
                             {
                                 mainInfo.current[mainInfo.current.length-1].map((curr, i) => {
                                     if(i === 0) return <button type='button' data-bs-target='#carouselExampleDark1' data-bs-slide-to={i} className='active' aria-current='true' aria-label={'Slide '+(i+1)} />
@@ -132,14 +149,9 @@ const Carousel = (props) => {
                                 })
                             }
                         </div>
-                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark1" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Previous</span>
-                        </button>
-                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark1" data-bs-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Next</span>
-                        </button>
+                        {
+                            mainInfo.current[2].length !== 1 ? hide1():""
+                        }
                     </div>
                     <div id="carouselExampleDark2" className="carousel carousel-dark slide" data-interval="false" style={{minWidth: "100%"}}>
                         <div className="carousel-indicators">
@@ -193,14 +205,9 @@ const Carousel = (props) => {
                                 })
                             }
                         </div>
-                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark2" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Previous</span>
-                        </button>
-                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark2" data-bs-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Next</span>
-                        </button>
+                        {
+                            mainInfo1.current[1].length !== 1 ? hide2(): ""
+                        }
                     </div>
                 </div>
                 {view()}
